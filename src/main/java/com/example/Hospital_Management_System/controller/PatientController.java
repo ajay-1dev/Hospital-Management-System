@@ -9,6 +9,7 @@ import com.example.Hospital_Management_System.schema.Patient;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -74,4 +75,13 @@ public class PatientController {
         return ResponseEntity.status(HttpStatus.OK)
         .body(patients);
     }
+
+    //Using Jpa Query Method
+    @GetMapping("{email}/{birthdate}")
+    public ResponseEntity<List<Patient>> getPatientByEmailOrBirthDate(@PathVariable("email") String email, @PathVariable("birthdate") String birthdate) {
+        List<Patient> patients = patientService.getpatientsByEmailOrBirthDate(email,LocalDate.parse(birthdate));
+        return ResponseEntity.status(HttpStatus.OK)
+        .body(patients);
+    }
+    
 }

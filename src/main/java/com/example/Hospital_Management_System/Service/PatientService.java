@@ -1,5 +1,6 @@
 package com.example.Hospital_Management_System.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -58,6 +59,11 @@ public class PatientService {
 
     public List<Patient> getDeletedPatients(){
         return patientRepository.getDeletedPatients();
+    }
+
+    //Using Jpa Query Method
+    public List<Patient> getpatientsByEmailOrBirthDate(String email, LocalDate birthdate){
+        return patientRepository.findByEmailOrBirthDate(email, birthdate);
     }
 
 }

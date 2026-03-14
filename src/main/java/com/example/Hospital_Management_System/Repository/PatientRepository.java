@@ -1,5 +1,6 @@
 package com.example.Hospital_Management_System.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,7 @@ import com.example.Hospital_Management_System.schema.Patient;
 public interface PatientRepository extends JpaRepository<Patient,Long>{
     @Query(nativeQuery = true, value = "SELECT * FROM patients where deleted_at is not null")
     public List<Patient> getDeletedPatients();
+
+    //JpaQueryMethod
+    public List<Patient> findByEmailOrBirthDate(String email, LocalDate birthdate);
 }

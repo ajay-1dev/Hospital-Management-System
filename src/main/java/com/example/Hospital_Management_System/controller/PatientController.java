@@ -4,8 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Hospital_Management_System.Service.PatientService;
+import com.example.Hospital_Management_System.dto.CountOfBloodGroupDTO;
 import com.example.Hospital_Management_System.dto.CreatePatientDto;
 import com.example.Hospital_Management_System.schema.Patient;
+import com.example.Hospital_Management_System.schema.Enums.BloodGroup;
 
 import lombok.RequiredArgsConstructor;
 
@@ -69,6 +71,7 @@ public class PatientController {
     }
     
 
+    //using Native Query
     @GetMapping("deletedrecords")
     public ResponseEntity<List<Patient>> getDeletedPatients() {
         List<Patient> patients = patientService.getDeletedPatients();
@@ -83,5 +86,28 @@ public class PatientController {
         return ResponseEntity.status(HttpStatus.OK)
         .body(patients);
     }
+
+    //JPQL
+    @GetMapping("bloodgroup/{bloodgroup}")
+    public ResponseEntity<List<Patient>> getPatientByBloodGroup(@PathVariable("bloodgroup") String bloodGroup){
+        return ResponseEntity.status(HttpStatus.OK)
+        .body(patientService.getPateintByBloodGroup((BloodGroup.valueOf(bloodGroup)))); 
+    }
+
+    //JPQl
+    @GetMapping("greaterthanbirthdate/{dob}")
+    public ResponseEntity<List<Patient>> getPatientGreaterThanBirthDate(@PathVariable("dob") String dob) {
+        return ResponseEntity.status(HttpStatus.OK)
+        .body(patientService.getPatientGreaterThanBirthDate(LocalDate.parse(dob)));
+    }
+
+    //JPQL
+    @GetMapping("countof/bloodgroup")
+    public ResponseEntity<List<CountOfBloodGroupDTO>> getCountOfBloodGroup() {
+        return ResponseEntity.status(HttpStatus.OK)
+        .body(patientService.getCountOfBloodGroup());
+    }
+    
+    
     
 }

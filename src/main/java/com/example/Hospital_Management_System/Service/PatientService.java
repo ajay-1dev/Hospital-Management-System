@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Hospital_Management_System.GlobalException.ResourceNotFoundExceptionHandler;
 import com.example.Hospital_Management_System.Repository.PatientRepository;
+import com.example.Hospital_Management_System.dto.CountOfBloodGroupDTO;
 import com.example.Hospital_Management_System.dto.CreatePatientDto;
 import com.example.Hospital_Management_System.schema.Patient;
 import com.example.Hospital_Management_System.schema.Enums.BloodGroup;
@@ -64,6 +65,33 @@ public class PatientService {
     //Using Jpa Query Method
     public List<Patient> getpatientsByEmailOrBirthDate(String email, LocalDate birthdate){
         return patientRepository.findByEmailOrBirthDate(email, birthdate);
+    }
+
+
+    //Using JPQL
+    public List<Patient> getPateintByBloodGroup(BloodGroup bloodGroup){
+        return patientRepository.findByBloodGroup(bloodGroup);
+    }
+
+    //Using JPQL
+    public List<Patient> getPatientGreaterThanBirthDate(LocalDate dob){
+        return patientRepository.findByGreaterThanBirthDate(dob);
+    }
+
+    /*
+    //Using Group By with JPQL
+    public List<CountOfBloodGroupDTO> getCountOfBloodGroup(){
+        List<Object[]> count = patientRepository.countEachBloodGroupType();
+        return count.stream()
+        .map(obj -> new CountOfBloodGroupDTO(
+        (BloodGroup)obj[0],
+        (Long)obj[1]
+        )).toList();
+    }
+        */
+
+    public List<CountOfBloodGroupDTO> getCountOfBloodGroup(){
+        return patientRepository.countEachBloodGroupType();
     }
 
 }

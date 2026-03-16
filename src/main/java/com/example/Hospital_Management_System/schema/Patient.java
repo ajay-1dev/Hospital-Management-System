@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,9 +18,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,13 +38,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "patients")
-@EntityListeners(AuditingEntityListener.class)
 @SQLDelete(sql = "UPDATE patients SET deleted_at = CURRENT_TIMESTAMP WHERE ID = ?")
 @SQLRestriction("deleted_at IS NULL")
-public class Patient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Patient extends BaseEntity {
 
     @NotBlank(message = "Name is required")
     @Column(nullable = false)
@@ -62,16 +62,12 @@ public class Patient {
     @Column(name = "blood_group", nullable = false)
     private BloodGroup bloodGroup;
 
-    // @CreationTimestamp we can use this also
-    @CreatedDate
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "insurance_id") //Owning Side
+    private Insurance insurance;
 
 }

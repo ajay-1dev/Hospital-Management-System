@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,23 +21,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "doctors")
-@SQLDelete(sql = "UPDATE insurance SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
-@SQLRestriction("deleted_at IS NULL")
-public class Doctor extends BaseEntity{
+@Table(name = "departments")
+public class Department extends BaseEntity {
     
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "specialization", nullable = false)
-    private String specialization;
-
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+    @OneToOne
+    @JoinColumn(name = "head_doctor_id", nullable = false)
+    private Doctor headDoctor;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @ManyToMany(mappedBy = "doctors")
-    private Set<Department> departments = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+        name = "department_doctors",
+        joinColumns = @JoinColumn(name = "department_id"),
+        inverseJoinColumns = @JoinColumn(name = "doctor_id")
+    )
+    private Set<Doctor> doctors = new HashSet<>();
+
 }

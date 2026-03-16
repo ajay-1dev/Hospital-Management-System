@@ -2,6 +2,7 @@ package com.example.Hospital_Management_System.schema;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -74,7 +75,7 @@ public class Patient extends BaseEntity {
     private Insurance insurance;
 
     @OneToMany(mappedBy = "patient")
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 
 
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.Hospital_Management_System.GlobalException.ResourceNotFoundExceptionHandler;
 import com.example.Hospital_Management_System.Repository.PatientRepository;
 import com.example.Hospital_Management_System.dto.CountOfBloodGroupDTO;
-import com.example.Hospital_Management_System.dto.CreatePatientDto;
+import com.example.Hospital_Management_System.dto.request.CreatePatientDto;
 import com.example.Hospital_Management_System.schema.Patient;
 import com.example.Hospital_Management_System.schema.Enums.BloodGroup;
 
@@ -57,26 +57,26 @@ public class PatientService {
         patient.setBirthDate(createPatientDto.getBirthDate());
         return patientRepository.save(patient);
     }
+//
+//    public List<Patient> getDeletedPatients(){
+//        return patientRepository.getDeletedPatients();
+//    }
 
-    public List<Patient> getDeletedPatients(){
-        return patientRepository.getDeletedPatients();
-    }
-
-    //Using Jpa Query Method
-    public List<Patient> getpatientsByEmailOrBirthDate(String email, LocalDate birthdate){
-        return patientRepository.findByEmailOrBirthDate(email, birthdate);
-    }
-
-
-    //Using JPQL
-    public List<Patient> getPateintByBloodGroup(BloodGroup bloodGroup){
-        return patientRepository.findByBloodGroup(bloodGroup);
-    }
-
-    //Using JPQL
-    public List<Patient> getPatientGreaterThanBirthDate(LocalDate dob){
-        return patientRepository.findByGreaterThanBirthDate(dob);
-    }
+//    //Using Jpa Query Method
+//    public List<Patient> getpatientsByEmailOrBirthDate(String email, LocalDate birthdate){
+//        return patientRepository.findByEmailOrBirthDate(email, birthdate);
+//    }
+//
+//
+//    //Using JPQL
+//    public List<Patient> getPateintByBloodGroup(BloodGroup bloodGroup){
+//        return patientRepository.findByBloodGroup(bloodGroup);
+//    }
+//
+//    //Using JPQL
+//    public List<Patient> getPatientGreaterThanBirthDate(LocalDate dob){
+//        return patientRepository.findByGreaterThanBirthDate(dob);
+//    }
 
     /*
     //Using Group By with JPQL
@@ -90,8 +90,8 @@ public class PatientService {
     }
         */
 
-    public List<CountOfBloodGroupDTO> getCountOfBloodGroup(){
-        return patientRepository.countEachBloodGroupType();
-    }
+//    public List<CountOfBloodGroupDTO> getCountOfBloodGroup(){
+//        return patientRepository.countEachBloodGroupType();
+//    }
 
 }

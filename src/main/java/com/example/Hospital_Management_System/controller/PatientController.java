@@ -1,11 +1,12 @@
 package com.example.Hospital_Management_System.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Hospital_Management_System.Service.PatientService;
 import com.example.Hospital_Management_System.dto.CountOfBloodGroupDTO;
-import com.example.Hospital_Management_System.dto.CreatePatientDto;
+import com.example.Hospital_Management_System.dto.request.CreatePatientDto;
 import com.example.Hospital_Management_System.schema.Patient;
 import com.example.Hospital_Management_System.schema.Enums.BloodGroup;
 
@@ -19,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,7 +49,7 @@ public class PatientController {
     
 
     @PostMapping()
-    public ResponseEntity<Patient> createPatient(@RequestBody CreatePatientDto createPatientDto) {        
+    public ResponseEntity<Patient> createPatient(@RequestBody @Valid CreatePatientDto createPatientDto) {
         Patient patient = patientService.createPatient(createPatientDto);
         return ResponseEntity.status(HttpStatus.CREATED)
         .body(patient);
@@ -64,7 +64,7 @@ public class PatientController {
     }
 
     @PutMapping("edit/{id}")
-    public ResponseEntity<Patient> EditById(@PathVariable("id") Long id, @RequestBody CreatePatientDto createPatientDto) {
+    public ResponseEntity<Patient> EditById(@PathVariable("id") Long id, @RequestBody @Valid CreatePatientDto createPatientDto) {
         Patient patient = patientService.editPatientById(id, createPatientDto);
         return ResponseEntity.status(HttpStatus.OK)
         .body(patient);
@@ -72,41 +72,41 @@ public class PatientController {
     
 
     //using Native Query
-    @GetMapping("deletedrecords")
-    public ResponseEntity<List<Patient>> getDeletedPatients() {
-        List<Patient> patients = patientService.getDeletedPatients();
-        return ResponseEntity.status(HttpStatus.OK)
-        .body(patients);
-    }
+//    @GetMapping("deletedrecords")
+//    public ResponseEntity<List<Patient>> getDeletedPatients() {
+//        List<Patient> patients = patientService.getDeletedPatients();
+//        return ResponseEntity.status(HttpStatus.OK)
+//        .body(patients);
+//    }
 
     //Using Jpa Query Method
-    @GetMapping("{email}/{birthdate}")
-    public ResponseEntity<List<Patient>> getPatientByEmailOrBirthDate(@PathVariable("email") String email, @PathVariable("birthdate") String birthdate) {
-        List<Patient> patients = patientService.getpatientsByEmailOrBirthDate(email,LocalDate.parse(birthdate));
-        return ResponseEntity.status(HttpStatus.OK)
-        .body(patients);
-    }
+//    @GetMapping("{email}/{birthdate}")
+//    public ResponseEntity<List<Patient>> getPatientByEmailOrBirthDate(@PathVariable("email") String email, @PathVariable("birthdate") String birthdate) {
+//        List<Patient> patients = patientService.getpatientsByEmailOrBirthDate(email,LocalDate.parse(birthdate));
+//        return ResponseEntity.status(HttpStatus.OK)
+//        .body(patients);
+//    }
 
     //JPQL
-    @GetMapping("bloodgroup/{bloodgroup}")
-    public ResponseEntity<List<Patient>> getPatientByBloodGroup(@PathVariable("bloodgroup") String bloodGroup){
-        return ResponseEntity.status(HttpStatus.OK)
-        .body(patientService.getPateintByBloodGroup((BloodGroup.valueOf(bloodGroup)))); 
-    }
+//    @GetMapping("bloodgroup/{bloodgroup}")
+//    public ResponseEntity<List<Patient>> getPatientByBloodGroup(@PathVariable("bloodgroup") String bloodGroup){
+//        return ResponseEntity.status(HttpStatus.OK)
+//        .body(patientService.getPateintByBloodGroup((BloodGroup.valueOf(bloodGroup))));
+//    }
 
     //JPQl
-    @GetMapping("greaterthanbirthdate/{dob}")
-    public ResponseEntity<List<Patient>> getPatientGreaterThanBirthDate(@PathVariable("dob") String dob) {
-        return ResponseEntity.status(HttpStatus.OK)
-        .body(patientService.getPatientGreaterThanBirthDate(LocalDate.parse(dob)));
-    }
+//    @GetMapping("greaterthanbirthdate/{dob}")
+//    public ResponseEntity<List<Patient>> getPatientGreaterThanBirthDate(@PathVariable("dob") String dob) {
+//        return ResponseEntity.status(HttpStatus.OK)
+//        .body(patientService.getPatientGreaterThanBirthDate(LocalDate.parse(dob)));
+//    }
 
     //JPQL
-    @GetMapping("countof/bloodgroup")
-    public ResponseEntity<List<CountOfBloodGroupDTO>> getCountOfBloodGroup() {
-        return ResponseEntity.status(HttpStatus.OK)
-        .body(patientService.getCountOfBloodGroup());
-    }
+//    @GetMapping("countof/bloodgroup")
+//    public ResponseEntity<List<CountOfBloodGroupDTO>> getCountOfBloodGroup() {
+//        return ResponseEntity.status(HttpStatus.OK)
+//        .body(patientService.getCountOfBloodGroup());
+//    }
     
     
     

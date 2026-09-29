@@ -10,7 +10,7 @@ public class ExceptionHandling {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> ExceptionHandlerMethod(Exception ex){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body("Something Went Wrong");
+        .body(ex.getLocalizedMessage());
     }
 
     @ExceptionHandler(ResourceNotFoundExceptionHandler.class)

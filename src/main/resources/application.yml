@@ -3,15 +3,15 @@ spring:
         name: Hospital-Management-System
     datasource:
       url: jdbc:mysql://localhost:3306/hospitalmanagementsystem
-      username: ${url}
-      password: ${password}
+      username: root
+      password: "${DB_PASSWORD}"
       driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
         show-sql: true
         hibernate:
-            ddl-auto: validate
-    flyway:
-        enabled: true
-        locations: classpath:db/migrations
+            ddl-auto: create
+#    flyway:
+#        enabled: true
+#        locations: classpath:db/migrations
 
 #debug: true 

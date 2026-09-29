@@ -3,6 +3,9 @@ package com.example.Hospital_Management_System.schema;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,19 +21,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 @Entity
 @Table(name = "insurance")
-@SQLDelete(sql = "UPDATE insurance SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
-@SQLRestriction("deleted_at IS NULL")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Insurance extends BaseEntity {
 
     @Column(name = "policy_number", nullable = false, length = 50)
@@ -42,12 +41,13 @@ public class Insurance extends BaseEntity {
     @Column(name = "valid_until", nullable = false)
     private LocalDate validUntil;
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+//    @Column(name = "deleted_at")
+//    private LocalDateTime deletedAt;
 
     //Inverse Side
-    @OneToOne(mappedBy = "insurance")
-    private Patient patient;
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "insurance")
+//    private Patient patient;
 
 
 }
